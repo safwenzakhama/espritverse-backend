@@ -39,8 +39,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    "cloudinary_storage",
-    "cloudinary",
     "rest_framework","corsheaders",
     "accounts",
     "notifications",
@@ -91,6 +89,12 @@ SIMPLE_JWT = {
 
 CORS_ALLOW_ALL_ORIGINS = True  # dev; tighten later
 CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
+    "http://localhost:3001",
+    "http://127.0.0.1:3001",
+]
 CORS_ALLOWED_HEADERS = [
     'accept',
     'accept-encoding',
@@ -101,6 +105,17 @@ CORS_ALLOWED_HEADERS = [
     'user-agent',
     'x-csrftoken',
     'x-requested-with',
+]
+CORS_EXPOSE_HEADERS = [
+    'content-type',
+    'x-csrftoken',
+]
+CORS_PREFLIGHT_MAX_AGE = 86400
+
+# Disable CSRF for API endpoints (using JWT auth)
+CSRF_TRUSTED_ORIGINS = [
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
 ]
 
 MEDIA_URL = "/media/"
@@ -192,20 +207,3 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Gemini AI Configuration
 GEMINI_API_KEY = config('GEMINI_API_KEY', default='AIzaSyAIARelwgiXosedZJk2OldrjM7hC5jp4zA')
-
-# Cloudinary Configuration (CloudinaryField approach)
-import os
-
-# Cloudinary URL format: cloudinary://<api_key>:<api_secret>@<cloud_name>
-CLOUDINARY_URL = "cloudinary://652491833127333:DssXCavhWW8TZDjb3tq5zFqR6ok@dekfek1oa"
-
-# Store uploaded MEDIA on Cloudinary
-DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
-
-# Cloudinary storage configuration
-CLOUDINARY_STORAGE = {
-    "CLOUD_NAME": "dekfek1oa",
-    "API_KEY": "652491833127333",
-    "API_SECRET": "DssXCavhWW8TZDjb3tq5zFqR6ok",
-    "SECURE": True,
-}

@@ -1,7 +1,6 @@
 # accounts models.py
 from django.contrib.auth.models import AbstractUser
 from django.db import models
-from cloudinary.models import CloudinaryField
 
 class Role(models.TextChoices):
     ADMIN = "admin", "Admin"
@@ -13,8 +12,8 @@ class User(AbstractUser):
     email = models.EmailField(unique=True)
     display_name = models.CharField(max_length=120, blank=True)
     bio = models.TextField(blank=True)
-    # avatar file (stored on Cloudinary)
-    avatar = CloudinaryField("image", folder="espritverse/avatars", blank=True, null=True)
+    # avatar file (served from /media/avatars/ in dev)
+    avatar = models.ImageField(upload_to="avatars/", blank=True, null=True)
     role = models.CharField(max_length=32, choices=Role.choices, default=Role.STUDENT)
 
     REQUIRED_FIELDS = ["email"]

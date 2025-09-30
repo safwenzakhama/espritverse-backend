@@ -80,6 +80,23 @@ class MessageViewSet(viewsets.ModelViewSet):
                 return Message.objects.none()
         return Message.objects.none()
 
+    def create(self, request, *args, **kwargs):
+        """Override create to add better error handling"""
+        try:
+            serializer = self.get_serializer(data=request.data)
+            serializer.is_valid(raise_exception=True)
+            self.perform_create(serializer)
+            headers = self.get_success_headers(serializer.data)
+            return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+        except Exception as e:
+            print(f"Message creation error: {str(e)}")
+            print(f"Request data: {request.data}")
+            print(f"Request files: {request.FILES}")
+            return Response(
+                {'error': str(e), 'details': 'Failed to create message'}, 
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
     def perform_create(self, serializer):
         """Set sender to current user when creating message"""
         serializer.save(sender=self.request.user)

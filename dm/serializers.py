@@ -20,6 +20,17 @@ class MessageSerializer(serializers.ModelSerializer):
         fields = ('id', 'conversation', 'sender', 'content', 'image', 'image_url', 'is_read', 'created_at')
         read_only_fields = ('sender', 'created_at', 'image_url')
 
+    def validate(self, data):
+        """Validate that either content or image is provided"""
+        content = data.get('content', '')
+        image = data.get('image')
+        
+        # Allow empty content if image is provided
+        if not content and not image:
+            raise serializers.ValidationError("Either content or image must be provided")
+        
+        return data
+
     def get_image_url(self, obj):
         return obj.image_url
 

@@ -1,7 +1,6 @@
 from django.db import models
 from django.conf import settings
 from django.utils import timezone
-from cloudinary.models import CloudinaryField
 
 User = settings.AUTH_USER_MODEL
 
@@ -31,8 +30,8 @@ class Message(models.Model):
     """A message in a conversation"""
     conversation = models.ForeignKey(Conversation, on_delete=models.CASCADE, related_name='messages')
     sender = models.ForeignKey(User, on_delete=models.CASCADE, related_name='sent_messages')
-    content = models.TextField()
-    image = CloudinaryField("image", folder="espritverse/messages", blank=True, null=True)
+    content = models.TextField(blank=True, default='')
+    image = models.ImageField(upload_to='messages/', blank=True, null=True)
     is_read = models.BooleanField(default=False)
     created_at = models.DateTimeField(default=timezone.now)
 

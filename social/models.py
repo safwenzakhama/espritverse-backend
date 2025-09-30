@@ -1,7 +1,6 @@
 from django.conf import settings
 from django.db import models
 from django.utils import timezone
-from cloudinary.models import CloudinaryField
 
 User = settings.AUTH_USER_MODEL
 
@@ -20,8 +19,8 @@ class Post(models.Model):
     )
     title = models.CharField(max_length=180, blank=True)
     content = models.TextField()
-    # ✅ single image as attribute (stored on Cloudinary)
-    image = CloudinaryField("image", folder="espritverse/posts", null=True, blank=True)
+    # ✅ single image as attribute
+    image = models.ImageField(upload_to="posts/", null=True, blank=True)
 
     created_at = models.DateTimeField(default=timezone.now)
     updated_at = models.DateTimeField(auto_now=True)
@@ -42,8 +41,8 @@ class Comment(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name="comments")
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name="comments")
     content = models.TextField(blank=True)  # allow image-only comments if you like
-    # ✅ single image as attribute (stored on Cloudinary)
-    image = CloudinaryField("image", folder="espritverse/comments", null=True, blank=True)
+    # ✅ single image as attribute
+    image = models.ImageField(upload_to="comments/", null=True, blank=True)
 
     created_at = models.DateTimeField(default=timezone.now)
     updated_at = models.DateTimeField(auto_now=True)

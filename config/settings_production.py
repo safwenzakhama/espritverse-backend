@@ -79,18 +79,3 @@ LOGGING = {
     "handlers": {"console": {"class": "logging.StreamHandler"}},
     "root": {"handlers": ["console"], "level": "INFO"},
 }
-
-# 7) Cloudinary Configuration for Production (CloudinaryField approach)
-# Cloudinary URL format: cloudinary://<api_key>:<api_secret>@<cloud_name>
-CLOUDINARY_URL = "cloudinary://652491833127333:DssXCavhWW8TZDjb3tq5zFqR6ok@dekfek1oa"
-
-# Store uploaded MEDIA on Cloudinary
-DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
-
-# Cloudinary storage configuration
-CLOUDINARY_STORAGE = {
-    "CLOUD_NAME": "dekfek1oa",
-    "API_KEY": "652491833127333",
-    "API_SECRET": "DssXCavhWW8TZDjb3tq5zFqR6ok",
-    "SECURE": True,
-}

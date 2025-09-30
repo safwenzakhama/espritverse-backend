@@ -97,15 +97,11 @@ class PostViewSet(viewsets.ModelViewSet):
                 }
                 logger.info(f"Returning moderation rejection: {error_data}")
                 
-                from rest_framework.response import Response
-                from rest_framework import status
                 return Response(error_data, status=status.HTTP_400_BAD_REQUEST)
             
         except Exception as e:
             logger.error(f"Content moderation error: {str(e)}")
             # If moderation fails, be conservative and reject
-            from rest_framework.response import Response
-            from rest_framework import status
             return Response({
                 'non_field_errors': ["Content moderation system temporarily unavailable. Please try again later."]
             }, status=status.HTTP_400_BAD_REQUEST)
